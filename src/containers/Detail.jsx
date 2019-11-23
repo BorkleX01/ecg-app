@@ -72,6 +72,7 @@ export class Detail extends Component {
                   this.props.modalVis ? 'inline' : 'none'
         return (
             <div className="document-form">
+              
               <div className="editor-group">
                 <button onClick={this.btnEditView}
                         id='editDocument'>Toggle Edit</button>
@@ -80,23 +81,27 @@ export class Detail extends Component {
                 <button onClick={this.btnEditView}
                         id='changePage'>Close</button>
               </div>
+              
               <div className="data-content">
-                <div onClick={this.imgClick} className="ecg">
-                  <svg x="0" y="0" width="1000" height="200"
-                       viewBox="0 -50 1000 50"
-                       version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <path d={this.linePlot}
-                          fill="transparent"
-                          stroke = "black"/>
-                  </svg>
+                    <div onClick={this.imgClick} className="graph-embedded">
+                    <svg x="0" y="0" width="1000" height="200"
+                        viewBox="0 -50 1000 50"
+                        version="1.1" xmlns="http://www.w3.org/2000/svg">
+                        <path d={this.linePlot}
+                            fill="transparent"
+                            stroke = "grey"/>
+                    </svg>
+                    </div>
+                
+                
+                    <div className = "text-fields"> 
+                        {Object.keys(obj).map(
+                            (o,i,arr) =>
+                                <DataField key={i} editField={this.newData} edit={this.state.editDocument} fieldName={o} fieldData={obj[o]}></DataField>
+                        )}
+                    </div>
                 </div>
-
-                {Object.keys(obj).map(
-                    (o,i,arr) =>
-                        <DataField key={i} editField={this.newData} edit={this.state.editDocument} fieldName={o} fieldData={obj[o]}></DataField>
-                )}
             </div>
-                </div>
         )
     }
 }
