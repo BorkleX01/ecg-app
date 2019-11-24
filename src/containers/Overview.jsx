@@ -22,10 +22,11 @@ export  class Overview extends Component {
         console.log(this.oViewRef.current.getClientRects()[0].height)
     }
     render () {
+        console.table(this.props.data)
         return (
-            <div ref={this.oViewRef} className="table">
-              {this.props.data.map((obj,i,arr)=> <DataRow key={i} obj={obj} /> )}
-            </div>
+            <table ref={this.oViewRef} className="data-table">
+              {this.props.data.map((obj,i,arr) => <DataRow key={i} obj={obj} /> )}
+            </table>
         )
         
     }

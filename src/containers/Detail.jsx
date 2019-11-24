@@ -97,7 +97,7 @@ export class Detail extends Component {
                     <div className = "text-fields"> 
                         {Object.keys(obj).map(
                             (o,i,arr) =>
-                                <DataField key={i} editField={this.newData} edit={this.state.editDocument} fieldName={o} fieldData={obj[o]}></DataField>
+                                <DataField key={i} editField={this.newData} edit={this.state.editDocument} fieldName={o} fieldData={obj[o]} className={'data-field'}></DataField>
                         )}
                     </div>
                 </div>

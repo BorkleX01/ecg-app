@@ -17,15 +17,19 @@ class DataRow extends Component {
     render () {
         const obj = this.props.obj
         return (
-            <div>
+           
               
-              <div className="data-row">
-                <div className="row-tip">
-                  <button className="show-detail-btn" onClick={this.showDocument}> Open </button>
-                </div>
-                {Object.keys(obj).map((o,i,arr)=><DataField key={i} fieldName={o} fieldData={obj[o]}/> )}
-              </div>
-            </div>
+              <tr className="data-row">
+                <td className="row-tip">
+                  <button className="show-detail-btn" 
+                  onClick={this.showDocument}> Open </button>
+                </td>
+               
+                {Object.keys(obj).map((o,i,arr)=> (i > 2 ? 
+                  <DataField key={i} fieldName={o} fieldData={obj[o]} className={'field-data-cell'} />:null) )}
+                
+              </tr>
+            
         )
     }
 }
