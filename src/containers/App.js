@@ -16,16 +16,14 @@ export class App extends Component {
         this.props = props
         this.state = {
             searchStr: '',
-            scrollInd: 0
+            scrollInd: 0,
+            entities: this.props.entities
         }
+        
+        this.props.filteredData(['', this.props.entities])
         this.searchBox = (e) => {
-            this.setState({ searchStr: e.target.value })
-
-            e.target.value > this.state.searchStr
-                ?
-                this.props.filteredData(e.target.value)
-                :
-                this.props.deFilteredData(e.target.value)
+            this.props.filteredData([e.target.value, this.props.entities])
+            this.setState({searchStr: e.target.value})
 
         }
         this.killModal = (e) => {
@@ -44,15 +42,14 @@ export class App extends Component {
 
 
     }
-    componentDidMount() {
-
-    }
+   
     componentDidUpdate() {
         if (this.state.scrollInd !== 0) {
             this.setState({ scrollInd: 0 })
         }
-
-    }
+       
+       
+    }   
 
     render() {
 
@@ -66,8 +63,10 @@ export class App extends Component {
 
                     <div className="App-title">ECG-APP</div>
                     <div className="Page-title">{this.props.view}</div>
-                    <input className="searchBox" value={this.state.searchStr}
+                   
+                    <input type="search" className="searchBox" value={this.state.searchStr}
                         onChange={this.searchBox}>
+                      
                     </input>
                     <div className="breadCrumbs" path={['Overview']}>
                         {genCrumbs}
@@ -81,7 +80,7 @@ export class App extends Component {
                         <Detail obj={this.props.thisDoc} /> :
 
                         this.props.view === 'Overview' ?
-                            <Overview data={this.props.entities} /> :
+                            <Overview data={this.state.entities} /> :
                             <div>Waiting...</div>}
                 </Viewport>
 
@@ -114,5 +113,5 @@ const mapStateToProps = ({ entities, masked, page, nav, thisDoc, modal }) => {
 }
 
 
-export default connect(mapStateToProps, { filteredData, deFilteredData, turnOnModal })(App)
+export default connect(mapStateToProps, { filteredData, turnOnModal })(App)
 

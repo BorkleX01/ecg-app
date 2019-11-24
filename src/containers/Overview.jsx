@@ -17,12 +17,8 @@ export  class Overview extends Component {
         this.rowRefMker = (ind) => this.rowRef[ind] = React.createRef() 
     }
     
-    componentDidMount(){
-        console.log(ReactDOM.findDOMNode(this).getClientRects()[0].height)
-        console.log(this.oViewRef.current.getClientRects()[0].height)
-    }
+  
     render () {
-        console.table(this.props.data)
         return (
             <table ref={this.oViewRef} className="data-table">
               {this.props.data.map((obj,i,arr) => <DataRow key={i} obj={obj} /> )}
@@ -34,6 +30,7 @@ export  class Overview extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        data:state.masked
     }
 }
 

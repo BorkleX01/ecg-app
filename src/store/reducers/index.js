@@ -14,33 +14,21 @@ const entities = (state = {entities : []} , action) => {
     return state
 }
 
-const masked = (state = { masked:[] , cache:[] }, action) => {
-    if (action.type === 'DATA_READY') {
-        return merge([], state.masked, action.data)
-    }
+const masked = (state = [''] , action) => {
 
     if (action.type === 'FILTER') {
-        const str = action.subStr
-        if (str.length > 0 )
-        {
-            let tst = (m) => {
-                return m.startsWith(str)
-            }
-            return state.filter(o => tst(o.surname))
-            
+        console.log(action)
+        let str = action.params[0]
+        let list = action.params[1]
+        let tst = (m) => {
+            return m.startsWith(str)
         }
+
+        state = list.filter(o => tst(o.surname))
+        return state
+
     }
-    if (action.type === 'DEFILTER') {
-        const str = action.subStr
-        if (str.length > 0 )
-        {
-            let tst = (m) => {
-                return m.startsWith(str)
-            }
-            return state.filter(o => tst(o.surname))
-            
-        }
-    }
+   
     return state
 }
 

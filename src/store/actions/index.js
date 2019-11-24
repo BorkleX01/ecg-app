@@ -12,21 +12,14 @@ export const getAllData = () => dispatch => {
   })
 }
 
-export const filteredData = ( subStr ) => dispatch => {
+export const filteredData = ( params ) => dispatch => {
     dispatch({
         type: types.filtered,
-        subStr
+        params
     })
 
 }
 
-export const deFilteredData = ( subStr ) => dispatch => {
-    dispatch({
-        type: types.defiltered,
-        subStr
-    })
-
-}
 
 export const changePage = page => dispatch => {
     dispatch({

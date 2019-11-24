@@ -12,13 +12,18 @@ export default class DataField extends Component {
         this.editField = (e) =>
             ((this.setState({ edited: true, fieldData: e.target.value })),
                 (this.props.editField(this.props.fieldName, this.state.fieldData)))
+        
+               
     }
     render() {
         
             if(this.props.edit) {
                 return <div className="data-field">
                         <div className="field-name">{this.props.fieldName}: </div>
-                        <input className="field-data" value={this.state.fieldData} onChange={this.editField}></input>
+                        <input 
+                        className="field-data" 
+                        type="text" value={this.state.fieldData} 
+                        onChange={this.editField} onClick={this.expandInput}></input>
                 </div>
                 }
                 else
