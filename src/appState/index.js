@@ -4,6 +4,7 @@ import { entitiesF } from './search'
 import { entities } from './fetch'
 import { modal } from './modal'
 import { view } from './view'
+import { nav } from './view'
 import { thisDoc } from './edit'
 
 const appState = combineReducers({
@@ -11,7 +12,8 @@ const appState = combineReducers({
   entitiesF,
   modal,
   view,
-  thisDoc
+  thisDoc,
+  nav
 })
 
 export default appState

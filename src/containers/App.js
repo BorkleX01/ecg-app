@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
 import '../styles/App.css'
 import { connect } from 'react-redux'
 import { applyFilter } from '../appState/search'
 import { toggleModal } from '../appState/modal'
-import { nav } from '../appState/view'
+
 
 import Overview from '../containers/Overview'
 import Detail from '../containers/Detail'
 import Viewport from '../components/Viewport'
-
 import Modal from '../components/Modal'
 
 export class App extends Component {
@@ -46,6 +44,7 @@ export class App extends Component {
     if (this.state.scrollInd !== 0) {
       this.setState({ scrollInd: 0 })
     }
+    console.log(this.props.nav)
   }   
 
   render() {
@@ -65,6 +64,7 @@ export class App extends Component {
           </input>
           
           <div className="breadCrumbs">
+            
             {this.props.nav ? this.props.nav.map((o) => <span>  :: {o} :: </span>) : null}
           </div>
 
@@ -95,7 +95,7 @@ export class App extends Component {
                  id="scrollL" className="left">&lt;</div>
 
             <div onClick={this.pager}
-                 id="scroll" className="right">&gt;</div>
+                 id="scrollR" className="right">&gt;</div>
           </div>
         </div>
       </div>
@@ -108,10 +108,11 @@ const mapStateToProps = ({ entities, entitiesF, view,  thisDoc, modal, nav }) =>
       entities: entities,
       filtered: entitiesF,
       view: view,
+      nav: nav,
       thisDoc: thisDoc,
       display: modal.display,
-      graphPlot: modal.plotXY,
-      nav: nav
+      graphPlot: modal.plotXY
+      
     }
 }
 

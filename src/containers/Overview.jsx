@@ -3,7 +3,7 @@ import ReactDOM from  'react-dom'
 import { connect } from 'react-redux'
 import DataRow from '../components/DataRow'
 export  class Overview extends Component {
-    constructor(props){
+  constructor(props){
         super()
         this.props = props
         this.state = {}

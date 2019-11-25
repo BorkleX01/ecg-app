@@ -13,36 +13,33 @@ export const view = (state = 'Overview', action) => {
       return  action.viewName
     }
   if (action.type === 'CACHE_EDIT'){
-      return  'Detail'
-    }
-    return state
+    return  'Detail'
+  }
+  return state
 }
 
 
 
-export const nav = (state = {nav : ['OVERVIEW']} , action) => {
-    if (action.type === 'DATA_READY'){
-        state = ['OVERVIEW']
-
-    }
-    if (action.type === 'DOCUMENT') {
-        state.push('VIEW')
-
-    }
-    if (action.page === 'Edit') {
-        state.push('EDIT')
+export const nav = (state = ['OVERVIEW'] , action) => {
+  if (action.type === 'VIEW'){
+    
+    if (action.viewName === 'Overview'){
+      state = ['OVERVIEW']
 
     }
 
-    if (action.page === 'Detail')
+    if (action.viewName === 'Detail')
     {
-        state = ['OVERVIEW', "VIEW"]
-        return state
-    }
-    if (action.page === 'Overview'){
-        return ['OVERVIEW']
+      state = ['OVERVIEW','VIEW']
+
     }
     
-    return state
+    if (action.viewName === 'Edit') {
+      state =['OVERVIEW','VIEW','EDIT']
+
+    }
+  }
+
+  return state
 }
 
