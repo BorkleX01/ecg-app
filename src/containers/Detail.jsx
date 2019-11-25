@@ -1,116 +1,148 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {editMode, changePage, alterCache, turnOnModal } from '../store/actions'
+import { changeView } from '../appState/view'
+import { setCurrentDoc, alterCache } from '../appState/edit'
+import { toggleModal } from '../appState/modal'
+import { genPlot } from './graphPlot'
+
 import DataField from '../components/DataField'
 
 
 export class Detail extends Component {
-    constructor(props){
-        super()
-        this.props = props
-        this.state = {
-            do: false,
-            changePage : 'Overview',
-            editDocument : false,
-            alterCache : {}
-        }
-
-        this.newObj = {index:this.props.thisDoc.index}
-    
-        this.newData = (f, d) => {
-            this.newObj[f] = d
-            this.setState({alterCache: {...this.newObj}})
-        }
-
-        this.btnEditView = (e) => {
-            this.setState({do:e.target.id})
-        }
-
-        
-        let graphCoords = "M0 ";
-        let signal = this.props.thisDoc.plot;
-
-        
-        for (var i = 0; i < signal.length; i++) {
-            graphCoords =
-                graphCoords + signal[i] + '  L ' + Number(10+i*10) + ' '
-        }
-
-        this.linePlot = graphCoords
-
-        this.imgClick = (e) => {
-            var nodeObj = e.currentTarget
-            this.props.turnOnModal(this.linePlot)
-        }
-
+  constructor(props){
+    super()
+    this.props = props
+    this.state = {
+      do: false,
+      changeView : 'Overview',
+      editDocument : false,
+      alterCache : {}
     }
     
-    componentDidUpdate(){
-        
-        const arg = this.state[this.state.do] 
-        const action = this.state.do
-        if(action){
-            if (action === 'editDocument') {
-                this.setState({
-                    editDocument : !this.state.editDocument })
-                if (this.state.editDocument)
-                {this.props.changePage('Detail')}
-                else {
-                    this.props.changePage('Edit')
 
-                }
-                this.setState({do: false})
-            } else {
-                this.props[action](arg)
-            }
-        }
+    if (this.props.thisDoc)
+    {
+      this.newVals = {
+        index: this.props.thisDoc.index,
+        indexMasked: this.props.thisDoc.maskInd
+      }
+      
+      this.updateField = (f, d) => {
+        this.newVals[f] = d
+        this.setState({ alterCache: {...this.newVals} })
+      }
+
+      this.btnEditView = (e) => {
+        this.setState({do:e.target.id})
+      }
+
+      this.linePlot = genPlot(this.props.thisDoc.plot)
+
+      this.imgClick = (e) => {
+        var nodeObj = e.currentTarget
+        this.props.toggleModal(this.linePlot)
+      }
     }
     
-    render () {
-        const obj = this.props.thisDoc
-        const modalVis =
-                  this.props.modalVis ? 'inline' : 'none'
-        return (
-            <div className="document-form">
-              
-              <div className="editor-group">
-                <button onClick={this.btnEditView}
-                        id='editDocument'>Toggle Edit</button>
-                <button onClick={this.btnEditView}
-                        id='alterCache'>Submit</button>
-                <button onClick={this.btnEditView}
-                        id='changePage'>Close</button>
-              </div>
-              
-              <div className="data-content">
-                    <div onClick={this.imgClick} className="graph-embedded">
-                    <svg x="0" y="0" width="1000" height="200"
-                        viewBox="0 -50 1000 50"
-                        version="1.1" xmlns="http://www.w3.org/2000/svg">
-                        <path d={this.linePlot}
-                            fill="transparent"
-                            stroke = "grey"/>
-                    </svg>
-                    </div>
-                
-                
-                    <div className = "text-fields"> 
-                        {Object.keys(obj).map(
-                            (o,i,arr) =>
-                                <DataField key={i} editField={this.newData} edit={this.state.editDocument} fieldName={o} fieldData={obj[o]} className={'data-field'}></DataField>
-                        )}
-                    </div>
-                </div>
-            </div>
-        )
+    
+
+  } 
+  
+  componentDidUpdate(){
+    const arg = this.state[this.state.do] 
+    const action = this.state.do
+
+      if(action){
+        if (action === 'editDocument') {
+          this.setState({
+            editDocument : !this.state.editDocument
+          })
+          
+          if (this.state.editDocument)
+          {
+            this.props.changeView('Detail')
+          }
+          else
+          {
+            this.props.changeView('Edit')
+
+          }
+          this.setState({do: false})
+        }
+        else if (action === 'alterCache')
+        {
+          this.props[action](arg)
+          this.setState({editDocument : false, do: false})
+        }
+        else
+        {
+          this.props[action](arg)
+        }
+      }
+  }
+  
+  render () {
+    if (this.props.thisDoc){
+    const obj = this.props.thisDoc
+    return (
+      <div className="document-form">
+        
+        <div className="editor-group">
+          <button onClick={this.btnEditView}
+                  id='editDocument'>Toggle Edit</button>
+          <button onClick={this.btnEditView}
+                  id='alterCache'>Submit</button>
+          <button onClick={this.btnEditView}
+                  id='changeView'>Close</button>
+        </div>
+        
+        <div className="data-content">
+          <div onClick={this.imgClick} className="graph-embedded">
+            <svg x="0" y="0" width="1000" height="200"
+                 viewBox="0 -50 1000 50"
+                 version="1.1" xmlns="http://www.w3.org/2000/svg">
+              {this.linePlot?
+               <path d={this.linePlot}
+                     fill="transparent"
+                     stroke = "grey"/>:null}
+            </svg>
+          </div>
+          
+          
+          <div className = "text-fields"> 
+            {Object.keys(obj).map(
+              (o,i,arr) =>
+                <DataField key={i}
+                           updateField = {this.updateField}
+                           edit={this.state.editDocument}
+                           fieldName={o}
+                           fieldData={obj[o]}
+                           className={'data-field'}>
+                </DataField>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
+    else{
+      return <div>Waiting...</div>
     }
+  }
 }
 
-const mapStateToProps = ({thisDoc, modal}) => {
-    return {
-        thisDoc : thisDoc,
-    }
+const getState = (state) => {
+  return {
+    thisDoc: state.thisDoc,
+    view: state.view
+  }
 }
 
-export default connect(mapStateToProps, {editMode, changePage, alterCache, turnOnModal})(Detail)
+
+const setState = {
+  changeView,
+  alterCache,
+  toggleModal
+}
+
+export default connect(getState, setState)(Detail)
 

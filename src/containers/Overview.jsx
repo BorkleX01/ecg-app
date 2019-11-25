@@ -18,19 +18,23 @@ export  class Overview extends Component {
     }
     
   
-    render () {
-        return (
-            <table ref={this.oViewRef} className="data-table">
-              {this.props.data.map((obj,i,arr) => <DataRow key={i} obj={obj} /> )}
-            </table>
-        )
-        
-    }
+  render () {
+    return (
+      <table ref={this.oViewRef}
+             className="data-table">
+        {this.props.data.map((obj,i,arr) =>
+                             <DataRow key={i}
+                                      maskIndex={i}
+                                      obj={obj} /> )}
+      </table>
+    )
+    
+  }
 }
 
 const mapStateToProps = (state) => {
     return {
-        data:state.masked
+        data:state.entitiesF
     }
 }
 

@@ -54,13 +54,13 @@
 
 .Page-title {
     font-size:xx-large;
-    
 }
 
 
-.data-table > .data-row {
+.data-row {
     height: 5vh;
     vertical-align: baseline;
+    display: table-row;
 }
 
 .data-field {
@@ -75,22 +75,10 @@
     white-space: nowrap;
     display: table-cell;
 }
-/*
-
-.data-row::-webkit-scrollbar, .App-viewport::-webkit-scrollbar {
-    display: none;
-}
-
-
-
-.data-row, .App-viewport {
-    -ms-overflow-style: none;
-}
-*/
-
 
 
 .row-tip {
+    display: table-row;
     height: inherit;
 }
 

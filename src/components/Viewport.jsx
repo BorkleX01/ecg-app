@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import ReactDOM from  'react-dom'
-
 export default class Viewport extends Component {
-    constructor(props){
-        super()
-        this.props = props
-        this.state = {}
-        this.vPortRef = React.createRef()
-    }
+  constructor(props){
+    super()
+    this.props = props
+    this.state = {}
+    this.vPortRef = React.createRef()
+  }
 
     componentDidUpdate(){
         let dir = this.props.scrollElem
@@ -19,11 +18,12 @@ export default class Viewport extends Component {
     }
     
     render () {
-        return (
-            <div ref={this.vPortRef}
-                 className="App-viewport" >
-              {this.props.children}
-            </div>
+      return (
+          <div ref={this.vPortRef}
+               className="App-viewport" >
+            {this.props.children}
+          </div>
+       
 
         )
     }
